@@ -5,6 +5,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\UslugaController;
 use App\Http\Controllers\MaterijalUslugeController;
+use App\Http\Controllers\FileUploadController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +40,17 @@ Route::middleware(['auth:sanctum', 'verified'])->get('brands', [BrandController:
 
 Route::middleware(['auth:sanctum', 'verified'])->get('uslugas', [UslugaController::class, 'index'])->name('uslugas');
 Route::middleware(['auth:sanctum', 'verified'])->get('materijal_usluges', [MaterijalUslugeController::class, 'index'])->name('materijal_usluges');
+Route::post('/upload', [FileUploadController::class, 'store'])->name('upload.file');
 
+
+Route::get('/fajlovi', function () {
+    return view('fajlovi.index');
+})->name('fajlovi.index');
+
+
+
+Route::get('/fajlovi', [FileUploadController::class, 'listFiles'])->name('files.list');
+Route::post('/upload', [FileUploadController::class, 'store'])->name('upload.file');
+Route::get('/download/{filename}', [FileUploadController::class, 'downloadFile'])->name('files.download');
 
 
